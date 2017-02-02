@@ -10,8 +10,16 @@
 
 #define F_CPU 8000000
 
-enum states {START, STATE_1, STATE_2, STATE_3, END};
-enum ports {D5, D6, D7};
+typedef enum {START, STATE_1, STATE_2, STATE_3, END} states;
+typedef enum {D5, D6, D7} ports;
+	
+typedef struct
+{
+	void (*finit)(void);
+	void (*fbody)(void);
+	void (*fexit)(void);
+	states nextState;
+	};
 
 /* Prototype */
 void delay(int);
