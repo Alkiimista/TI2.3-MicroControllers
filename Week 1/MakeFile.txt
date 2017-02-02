@@ -1,0 +1,2 @@
+all:
+	gcc BlinkingLed.c -o BlinkingLed
