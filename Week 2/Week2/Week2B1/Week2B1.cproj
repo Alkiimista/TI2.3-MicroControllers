@@ -4,7 +4,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectVersion>7.0</ProjectVersion>
     <ToolchainName>com.Atmel.AVRGCC8.C</ToolchainName>
-    <ProjectGuid>{8bfb3c54-63f5-44c7-af35-7c8af20d11e1}</ProjectGuid>
+    <ProjectGuid>{58574d1c-faf7-4334-80e7-0061d1e53498}</ProjectGuid>
     <avrdevice>ATmega128</avrdevice>
     <avrdeviceseries>none</avrdeviceseries>
     <OutputType>Executable</OutputType>
@@ -12,9 +12,9 @@
     <OutputFileName>$(MSBuildProjectName)</OutputFileName>
     <OutputFileExtension>.elf</OutputFileExtension>
     <OutputDirectory>$(MSBuildProjectDirectory)\$(Configuration)</OutputDirectory>
-    <AssemblyName>Week1B7a</AssemblyName>
-    <Name>Week1B7a</Name>
-    <RootNamespace>Week1B7a</RootNamespace>
+    <AssemblyName>Week2B1</AssemblyName>
+    <Name>Week2B1</Name>
+    <RootNamespace>Week2B1</RootNamespace>
     <ToolchainFlavour>Native</ToolchainFlavour>
     <KeepTimersRunning>true</KeepTimersRunning>
     <OverrideVtor>false</OverrideVtor>
