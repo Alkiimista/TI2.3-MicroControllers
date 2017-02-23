@@ -52,9 +52,15 @@ void init_lcd_4bit()
 
 void display_text(char *str)
 {
-	lcd_write_data(0x01);
+
 	
-	lcd_write_data(0x02);
+	//lcd_strobe_lcd_e();
+	PORTC = 0x0;
+	lcd_strobe_lcd_e();
+	
+	//lcd_strobe_lcd_e();
+	PORTC = 0x1;
+	lcd_strobe_lcd_e();
 	while(*str)
 	{
 		lcd_write_data(*str++);
