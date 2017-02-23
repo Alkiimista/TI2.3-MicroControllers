@@ -9,36 +9,48 @@
 #include <avr/interrupt.h>
 #include <util/delay.h>
 
-int TimerPreset = -1000;
-int count = 0;
+int i = 0;
 
-ISR( TIMER2_OVF_vect )
+ISR( TIMER2_COMP_vect )
 {
-	TCNT2 = TimerPreset;	// Preset value
-	count++;			// Increment counter
-	PORTA = 0xFF;
+	//TCNT2 = TimerPreset;	// Preset value
+	//count++;			// Increment counter
+	//PORTA = 0xFF;
+
+	if(i == 0)
+	{
+		PORTB = 0b00000000;
+		i = 1;
+		OCR2 =193;
+	}
+	else
+	{
+		PORTB = 0b11111111;
+		i = 0;
+		OCR2 = 117;
+	}
 }
 
 
 void timer2Init( void )
 {
-	DDRD = 0x00;
-	TCNT2 = TimerPreset;	// Preset value of counter 2
-	TIMSK |= 0x02// BIT(6);		// T2 overflow interrupt enable
-	//SREG |= 0x01 //BIT(7);		// turn_on intr all
-	TCCR2 = 0x07;			// Initialize T2: ext.counting, rising edge, run
+	//DDRD = 0x00;
+	//TCNT2 = TimerPreset;	// Preset value of counter 2
+
+	OCR2 = 117;
+	TIMSK = 0b10000000;			// T2 overflow interrupt enable
+	TCCR2 = 0b00011101;			// Prescaler = 1024
 }
 
 
 int main(void)
 {
-	DDRA = 0xFF;
+	DDRB = 0b11111111;
 	timer2Init();
-
+	
+	sei();
     while (1) 
     {
-		PORTA = 0x00;
-		wait(1000);
     }
 }
 
