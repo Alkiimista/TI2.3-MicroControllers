@@ -9,9 +9,10 @@
 #include "lcd.h"
 #include <avr/interrupt.h>
 #include <util/delay.h>
+#include <string.h>
 
 //volatile int timesPressed = 0;
-static char str[1000];
+static char str[10];
 
 void wait(int ms);
 
@@ -21,6 +22,8 @@ void wait(int ms);
 	//timesPressed++;
 	//display_text(sprintf(str, "%i", timesPressed));	
 //}
+volatile int timesPressed = 0;
+// char str[10];
 
 void wait( int ms )
 {
@@ -30,13 +33,26 @@ void wait( int ms )
 	}
 }
 
+
+ISR(INT0_vect)
+{
+	clearScreen();
+	wait(1);
+	timesPressed++;
+	sprintf(str, "%d", timesPressed);
+	display_text(str);
+	memset(str, 0, 10);
+}
+
+
 int main(void)
 {
-	int timesPressed = 0;
+	//int timesPressed = 0;
 	init_lcd_4bit();
 
-
-	DDRA = 0xF0;
+	
+	DDRD = 0xF0;
+	DDRA = 0b11111111;
 
 	EICRA |= 0x0B;
 
@@ -44,39 +60,10 @@ int main(void)
 
 	sei();
 	
-	DDRD = 0xFC;
-	DDRF = 0b11111111;
-	//display_text("100");
-	
-	char str[10] = "0";
-
-	//sprintf(str, "%d", 0);
 	display_text("0");
-	//display_text(&str);
-
     while (1) 
     {
 		
-		//display_text("10000");
-		PORTF = 0x0;
-		if(PIND & 1)
-		{
-			PORTF = 0b11111111;
-			timesPressed--;
-			sprintf(str, "%d", timesPressed);
-			display_text(str);
-			wait(250);
-		}
-		else if(PIND & 2)
-		{
-			PORTF = 0b11111111;
-			timesPressed++;
-			sprintf(str, "%d", timesPressed);
-			display_text(str);
-			wait(250);
-		}
-		PORTD ^= (1<<7);	// Toggle PORTD.7
-		wait( 250 );
     }
 }
 

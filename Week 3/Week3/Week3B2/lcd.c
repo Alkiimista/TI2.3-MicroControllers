@@ -52,18 +52,19 @@ void init_lcd_4bit()
 void display_text(char *str)
 {
 
-	
-	//lcd_strobe_lcd_e();
-	PORTC = 0x0;
-	lcd_strobe_lcd_e();
-	
-	//lcd_strobe_lcd_e();
-	PORTC = 0x1;
-	lcd_strobe_lcd_e();
 	while(*str)
 	{
 		lcd_write_data(*str++);
 	}
+}
+
+void clearScreen()
+{
+	for(int i = 0; i < 16; i++)
+	{
+		display_text(" ");
+	}
+	lcd_write_command(0x80);
 }
 
 void set_cursor(int position)
