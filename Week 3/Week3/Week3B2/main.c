@@ -64,7 +64,7 @@ int main(void)
 			PORTF = 0b11111111;
 			timesPressed--;
 			sprintf(str, "%d", timesPressed);
-			display_text(&str);
+			display_text(str);
 			wait(250);
 		}
 		else if(PIND & 2)
@@ -72,9 +72,11 @@ int main(void)
 			PORTF = 0b11111111;
 			timesPressed++;
 			sprintf(str, "%d", timesPressed);
-			display_text(&str);
+			display_text(str);
 			wait(250);
 		}
+		PORTD ^= (1<<7);	// Toggle PORTD.7
+		wait( 250 );
     }
 }
 

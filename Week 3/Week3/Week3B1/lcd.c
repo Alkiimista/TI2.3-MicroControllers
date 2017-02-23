@@ -15,9 +15,8 @@ int main(void)
 {
 	init_lcd_4bit();
 
-	display_text("Hoi");
-	set_cursor(8);
-	display_text("No");
+	set_cursor(3);
+	display_text("Dit is");
     while (1) 
     {
     }
@@ -60,14 +59,31 @@ void display_text(char *str)
 
 void set_cursor(int position)
 {
-	PORTC = 0x0F;
-	lcd_strobe_lcd_e();
-
-	for(int i = 0; i <= position; i++)
+	lcd_write_command(0x80);
+	int currentLocation = 0;
+	if(position != 0)
 	{
-		PORTC = 0x14;
-		lcd_strobe_lcd_e();
-		_delay_ms(40);
+		for(int i = 0; i < position; i++)
+		{
+			if(currentLocation != 15)
+			{
+					lcd_write_command(0x14);
+					_delay_ms(5);
+			}
+			else if(currentLocation == 16)
+			{
+				lcd_write_command(0xA8);
+				_delay_ms(5);
+			}
+			else if(currentLocation == 32)
+			{
+				lcd_write_command(0x80);
+				currentLocation = 0;
+				_delay_ms(5);
+			}
+			currentLocation++;
+			_delay_ms(5);
+		}
 	}
 }
 
@@ -81,6 +97,19 @@ void lcd_write_data(unsigned char byte)
 	// Second nibble
 	PORTC = (byte<<4);
 	PORTC |= (1<<LCD_RS);
+	lcd_strobe_lcd_e();
+}
+
+void lcd_write_command(unsigned char byte)
+{
+	// First nibble.
+	PORTC = byte;
+	PORTC &= ~(1<<LCD_RS);
+	lcd_strobe_lcd_e();
+
+	// Second nibble
+	PORTC = (byte<<4);
+	PORTC &= ~(1<<LCD_RS);
 	lcd_strobe_lcd_e();
 }
 
