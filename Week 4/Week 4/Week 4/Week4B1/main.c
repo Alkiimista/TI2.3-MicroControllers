@@ -34,17 +34,17 @@ void adcInit( void )
 int main(void)
 {
 
-	DDRF = 0x00;
-	DDRA = 0xFF;
-	DDRB = 0xFF;
+	DDRF = 0x00;	// Initialize the ports
+	DDRA = 0xFF;	// Initialize the ports
+	DDRB = 0xFF;	// Initialize the ports
 	adcInit();
 	
 	
     /* Replace with your application code */
     while (1) 
     {
-		PORTB = ADCL;
-		PORTA = ADCH;
+		PORTB = ADCL;	//Display the low on the leds in row B
+		PORTA = ADCH;	//Display the high on the leds in row A
 		wait(100);
     }
 }

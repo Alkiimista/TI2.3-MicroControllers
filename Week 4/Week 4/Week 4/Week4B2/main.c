@@ -62,7 +62,6 @@ int main(void)
 	EIMSK |= 0x03;			// Enable INT1 & INT0
 	
 	// Enable global interrupt system
-	//SREG = 0x80;			// Of direct via SREG of via wrapper
 	sei();
 	
     /* Replace with your application code */
