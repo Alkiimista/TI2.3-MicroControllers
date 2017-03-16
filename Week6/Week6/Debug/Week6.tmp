@@ -1,0 +1,28 @@
+<ASSEMBLER_INFO>
+ <VERSION>2.2.6</VERSION>
+ <DEVICE>"ATmega128"</DEVICE>
+ <WORKING_DIR>D:\Avans\Jaar 2\Periode 3\Microcontrollers\Week6\Week6\Debug</WORKING_DIR>
+ <INCLUDE_PATH>
+  <DIR>D:/Program Files\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.1.130\avrasm\inc</DIR>
+  <DIR>D:\Program Files\Atmel\Studio\7.0\toolchain\avr8\avrassembler\Include</DIR>
+  <DIR></DIR>
+ </INCLUDE_PATH>
+ <SOURCE_FILE>D:\Avans\Jaar 2\Periode 3\Microcontrollers\Week6\Week6\main.asm</SOURCE_FILE>
+ <INCLUDED_FILES>
+  <FILE>D:/Program Files\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.1.130\avrasm\inc\m128def.inc</FILE>
+ </INCLUDED_FILES>
+ <OBJECT_FILES>
+  <FILE>D:\Avans\Jaar 2\Periode 3\Microcontrollers\Week6\Week6\Debug\Week6.obj</FILE>
+ </OBJECT_FILES>
+ <HEX_FILES>
+  <FILE>Week6.hex</FILE>
+ </HEX_FILES>
+ <OUTPUT_FILES>
+  <FILE>Week6.map</FILE>
+  <FILE>Week6.lss</FILE>
+ </OUTPUT_FILES>
+ <LABELS>
+  <main><FILE>D:\Avans\Jaar 2\Periode 3\Microcontrollers\Week6\Week6\main.asm</FILE><LINE>12</LINE></main>
+  <no_end><FILE>D:\Avans\Jaar 2\Periode 3\Microcontrollers\Week6\Week6\main.asm</FILE><LINE>24</LINE></no_end>
+ </LABELS>
+</ASSEMBLER_INFO>
