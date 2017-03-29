@@ -18,6 +18,7 @@
 
 #include <avr/io.h>
 #include <util/delay.h>
+#include <avr/interrupt.h>
 
 
 int alphabet[26][8] = {
@@ -50,6 +51,8 @@ int alphabet[26][8] = {
 	{0b10000010, 0b01000100, 0b00101000, 0b00010000, 0b00010000, 0b00010000, 0b00010000, 0b00010000}, // Y
 	{0b01111110, 0b00000010, 0b00000100, 0b00001000, 0b00010000, 0b00100000, 0b01000000, 0b01111110	} // Z
 };
+int isCycling = 1;
+int indexalphabet = 0;
 
 /************************/
 void twi_init(void)
@@ -248,6 +251,24 @@ void initcommands(void)
 }
 
 
+ISR( INT0_vect ) {
+	indexalphabet++;
+	if(indexalphabet == 26) {
+	indexalphabet = 0;
+	}
+}
+
+ISR( INT1_vect ) {
+	indexalphabet--;
+	if(indexalphabet == -1) {
+		indexalphabet = 25;
+	}
+}
+
+ISR( INT2_vect ) {
+	isCycling = isCycling == 0 ? 1 : 0;
+}
+
 /************************/
 int main( void )
 /* 
@@ -275,7 +296,16 @@ Version :    	DMK, Initial code
 	//twi_tx(lampje);	// De lampjes in een gegeven rij die branden waarbij FF heel de rij laat branden en 00 niks
 
 	clear();
-	int i = 0;
+	
+	DDRD = 0x00;
+
+	EICRA |= 0x3F;
+	//INT2,1,0 rising edge
+	EIMSK |= 0x07;			// Enable INT2 & INT1 & INT0
+	
+	// Enable global interrupt system
+	sei();
+
 	while (1)
 	{
 
@@ -288,10 +318,12 @@ Version :    	DMK, Initial code
 		//sendDataAtLine(2, 0xff);
 		//sendDataAtLine(6, 0xFF);
 		//displayletter('W');
-		display8x8(alphabet[i]);
-		i++;
-		if(i == 26){
-			i = 0;
+		display8x8(alphabet[indexalphabet]);
+		if(isCycling) {
+			indexalphabet++;
+			if(indexalphabet == 26){
+				indexalphabet = 0;
+			}
 		}
 		//sendDataAtLine(2, 0x81);
 		wait(500);
