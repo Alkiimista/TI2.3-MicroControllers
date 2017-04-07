@@ -277,6 +277,7 @@ void initcommands(void)
 
 volatile int indexalphabet = 0;
 volatile int isCycling = 1;
+volatile int direction = 1;
 
 void setIndexAlphabet(int i)
 {
@@ -299,7 +300,7 @@ ISR( INT4_vect ) {
 		i = 0;
 	}
 	indexalphabet = i;
-	display8x8(alphabet[i]);
+	//display8x8(alphabet[i]);
 }
 
 
@@ -312,11 +313,15 @@ ISR( INT5_vect ) {
 		i = 25;
 	}
 	indexalphabet = i;
-	display8x8(alphabet[i]);
+	//display8x8(alphabet[i]);
 }
 
 ISR( INT6_vect ) {
 	isCycling = isCycling == 0 ? 1 : 0;
+}
+
+ISR( INT7_vect ) {
+	direction = direction == 1 ? -1 : 1;
 }
 
 /************************/
@@ -370,8 +375,8 @@ Version :    	DMK, Initial code
 	//DDRE = 0xFF;
 	//PORTE = 0x00;
 
-	EICRB |= 0x3F;			// INT2,1,0 rising edge
-	EIMSK |= 0x70;			// Enable INT2 & INT1 & INT0
+	EICRB |= 0xF0;			// INT2,1,0 rising edge
+	EIMSK |= 0xF0;			// Enable INT2 & INT1 & INT0
 	
 	sei();
 
@@ -419,18 +424,22 @@ Version :    	DMK, Initial code
 */		
 
 		//display8x8MultiArray(alphabet[1], alphabet[2], 4);
-
-		display8x8(alphabet[i]);
+		//display8x8(alphabet[i]);
 		if(isCycling) {
 			//indexalphabet++;
+			if(direction == 1) {
 			i++;
-			x++;
+			}
+			else if(direction == -1) {
+			i--;
+			}
 			if(i == 26){
 				indexalphabet = 0;
 				i = 0;
-				x = 0;
 			}
-			
+			else if (i == -1) {
+				i = 25;
+			}
 		}
 		display8x8(alphabet[i]);
 		wait(500);
